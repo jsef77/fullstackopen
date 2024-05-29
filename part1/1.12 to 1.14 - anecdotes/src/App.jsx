@@ -6,7 +6,6 @@ const RandomButton = ({ text, selected, setSelected }) => {
   }
   function handleClick() {
     const rng = rollNumber();
-    console.log(selected);
     if (rng === selected) {
       // check dupe
       handleClick();
@@ -16,6 +15,10 @@ const RandomButton = ({ text, selected, setSelected }) => {
   }
 
   return <button onClick={handleClick}>{text}</button>;
+};
+
+const VoteButton = ({ text, onClick }) => {
+  return <button onClick={onClick}>{text}</button>;
 };
 
 const App = () => {
@@ -30,12 +33,21 @@ const App = () => {
     "The only way to go fast, is to go well.",
   ];
 
+  const [points, setPoints] = useState(new Int8Array(anecdotes.length));
   const [selected, setSelected] = useState(0);
+
+  function handleVote() {
+    const newPoints = [...points];
+    newPoints[selected] += 1;
+    setPoints(newPoints);
+  }
 
   return (
     <div>
       {anecdotes[selected]}
       <div>
+        <div>has {points[selected]} votes</div>
+        <VoteButton text="vote" onClick={handleVote} />
         <RandomButton
           text="next anecdote"
           selected={selected}
