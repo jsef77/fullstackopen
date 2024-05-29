@@ -18,12 +18,7 @@ const Statistic = ({ text, stat }) => {
   );
 };
 
-const App = () => {
-  // save clicks of each button to its own state
-  const [good, setGood] = useState(0);
-  const [neutral, setNeutral] = useState(0);
-  const [bad, setBad] = useState(0);
-
+const Statistics = ({ good, neutral, bad }) => {
   function averageFeedback() {
     const average = good - bad;
     const total = good + neutral + bad;
@@ -37,6 +32,28 @@ const App = () => {
     return good / total + "%";
   }
 
+  if (good + bad + neutral != 0) {
+    return (
+      <>
+        {" "}
+        <Statistic text="good" stat={good} />
+        <Statistic text="neutral" stat={neutral} />
+        <Statistic text="bad" stat={bad} />
+        <Statistic text="all" stat={good + neutral + bad} />
+        <Statistic text="average" stat={averageFeedback()} />
+        <Statistic text="positive" stat={positiveFeedback()} />
+      </>
+    );
+  }
+  return "No feedback given";
+};
+
+const App = () => {
+  // save clicks of each button to its own state
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+
   return (
     <>
       {/* BUTTONS */}
@@ -47,12 +64,7 @@ const App = () => {
 
       {/* STATS DISPLAY */}
       <Title text="statistics" />
-      <Statistic text="good" stat={good} />
-      <Statistic text="neutral" stat={neutral} />
-      <Statistic text="bad" stat={bad} />
-      <Statistic text="all" stat={good + neutral + bad} />
-      <Statistic text="average" stat={averageFeedback()} />
-      <Statistic text="positive" stat={positiveFeedback()} />
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </>
   );
 };
