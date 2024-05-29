@@ -24,6 +24,19 @@ const App = () => {
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
 
+  function averageFeedback() {
+    const average = good - bad;
+    const total = good + neutral + bad;
+
+    return average / total;
+  }
+
+  function positiveFeedback() {
+    const total = good + neutral + bad;
+
+    return good / total + "%";
+  }
+
   return (
     <>
       {/* BUTTONS */}
@@ -37,6 +50,9 @@ const App = () => {
       <Statistic text="good" stat={good} />
       <Statistic text="neutral" stat={neutral} />
       <Statistic text="bad" stat={bad} />
+      <Statistic text="all" stat={good + neutral + bad} />
+      <Statistic text="average" stat={averageFeedback()} />
+      <Statistic text="positive" stat={positiveFeedback()} />
     </>
   );
 };
