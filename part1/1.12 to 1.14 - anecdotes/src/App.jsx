@@ -35,26 +35,34 @@ const App = () => {
 
   const [points, setPoints] = useState(new Int8Array(anecdotes.length));
   const [selected, setSelected] = useState(0);
+  const [topIndex, setTopIndex] = useState(0);
 
   function handleVote() {
     const newPoints = [...points];
     newPoints[selected] += 1;
+
+    if (newPoints[selected] > newPoints[topIndex]) {
+      setTopIndex(selected);
+      console.log("New Top Index!: " + selected);
+    }
     setPoints(newPoints);
   }
 
   return (
-    <div>
+    <>
+      <h1>Anecdote of the day</h1>
       {anecdotes[selected]}
-      <div>
-        <div>has {points[selected]} votes</div>
-        <VoteButton text="vote" onClick={handleVote} />
-        <RandomButton
-          text="next anecdote"
-          selected={selected}
-          setSelected={setSelected}
-        />
-      </div>
-    </div>
+      <div>has {points[selected]} votes</div>
+      <VoteButton text="vote" onClick={handleVote} />
+      <RandomButton
+        text="next anecdote"
+        selected={selected}
+        setSelected={setSelected}
+      />
+      <h1>Anecdote with the most votes</h1>
+      {anecdotes[topIndex]}
+      <div>has {points[topIndex]} votes </div>
+    </>
   );
 };
 
