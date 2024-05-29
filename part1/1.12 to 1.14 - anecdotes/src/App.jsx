@@ -1,5 +1,23 @@
 import { useState } from "react";
 
+const RandomButton = ({ text, selected, setSelected }) => {
+  function rollNumber() {
+    return Math.floor(Math.random() * 8);
+  }
+  function handleClick() {
+    const rng = rollNumber();
+    console.log(selected);
+    if (rng === selected) {
+      // check dupe
+      handleClick();
+    } else {
+      setSelected(rng);
+    }
+  }
+
+  return <button onClick={handleClick}>{text}</button>;
+};
+
 const App = () => {
   const anecdotes = [
     "If it hurts, do it more often.",
@@ -14,7 +32,18 @@ const App = () => {
 
   const [selected, setSelected] = useState(0);
 
-  return <div>{anecdotes[selected]}</div>;
+  return (
+    <div>
+      {anecdotes[selected]}
+      <div>
+        <RandomButton
+          text="next anecdote"
+          selected={selected}
+          setSelected={setSelected}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default App;
