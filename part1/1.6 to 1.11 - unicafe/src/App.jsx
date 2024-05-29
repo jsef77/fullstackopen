@@ -8,11 +8,11 @@ const Title = ({ text }) => {
   return <h1>{text}</h1>;
 };
 
-const Statistic = ({ text, stat }) => {
+const StatisticLine = ({ text, value }) => {
   return (
     <>
       <p>
-        {text} {stat}
+        {text} {value}
       </p>
     </>
   );
@@ -34,15 +34,14 @@ const Statistics = ({ good, neutral, bad }) => {
 
   if (good + bad + neutral != 0) {
     return (
-      <>
-        {" "}
-        <Statistic text="good" stat={good} />
-        <Statistic text="neutral" stat={neutral} />
-        <Statistic text="bad" stat={bad} />
-        <Statistic text="all" stat={good + neutral + bad} />
-        <Statistic text="average" stat={averageFeedback()} />
-        <Statistic text="positive" stat={positiveFeedback()} />
-      </>
+      <div>
+        <StatisticLine text="good" value={good} />
+        <StatisticLine text="neutral" value={neutral} />
+        <StatisticLine text="bad" value={bad} />
+        <StatisticLine text="all" value={good + neutral + bad} />
+        <StatisticLine text="average" value={averageFeedback()} />
+        <StatisticLine text="positive" value={positiveFeedback()} />
+      </div>
     );
   }
   return "No feedback given";
