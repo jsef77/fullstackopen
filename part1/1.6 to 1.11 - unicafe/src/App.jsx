@@ -11,9 +11,8 @@ const Title = ({ text }) => {
 const StatisticLine = ({ text, value }) => {
   return (
     <>
-      <p>
-        {text} {value}
-      </p>
+      <td>{text}</td>
+      <td> {value}</td>
     </>
   );
 };
@@ -34,14 +33,28 @@ const Statistics = ({ good, neutral, bad }) => {
 
   if (good + bad + neutral != 0) {
     return (
-      <div>
-        <StatisticLine text="good" value={good} />
-        <StatisticLine text="neutral" value={neutral} />
-        <StatisticLine text="bad" value={bad} />
-        <StatisticLine text="all" value={good + neutral + bad} />
-        <StatisticLine text="average" value={averageFeedback()} />
-        <StatisticLine text="positive" value={positiveFeedback()} />
-      </div>
+      <table>
+        <tbody>
+          <tr>
+            <StatisticLine text="good" value={good} />
+          </tr>
+          <tr>
+            <StatisticLine text="neutral" value={neutral} />
+          </tr>
+          <tr>
+            <StatisticLine text="bad" value={bad} />
+          </tr>
+          <tr>
+            <StatisticLine text="all" value={good + neutral + bad} />
+          </tr>
+          <tr>
+            <StatisticLine text="average" value={averageFeedback()} />
+          </tr>
+          <tr>
+            <StatisticLine text="positive" value={positiveFeedback()} />
+          </tr>
+        </tbody>
+      </table>
     );
   }
   return "No feedback given";
