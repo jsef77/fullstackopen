@@ -1,4 +1,7 @@
 import { useState } from "react";
+import PersonForm from "./components/PersonForm";
+import Persons from "./components/Persons";
+import Filter from "./components/Filter";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -10,6 +13,14 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newFilter, setNewFilter] = useState("");
+
+  function handleNameInputChange(event) {
+    setNewName(event.target.value);
+  }
+
+  function handleNumberInputChange(event) {
+    setNewNumber(event.target.value);
+  }
 
   function handleFilterChange(event) {
     setNewFilter(event.target.value);
@@ -30,50 +41,25 @@ const App = () => {
     }
   }
 
-  function handleNameInputChange(event) {
-    setNewName(event.target.value);
-  }
-
-  function handleNumberInputChange(event) {
-    setNewNumber(event.target.value);
-  }
-
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with{" "}
-        <input value={newFilter} onChange={handleFilterChange}></input>
-      </div>
-      <h2>add a new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameInputChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberInputChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      {persons.reduce((filtered, person) => {
-        if (person.name.toLowerCase().includes(newFilter.toLowerCase())) {
-          filtered.push(
-            <p key={person.name}>
-              {person.name} {person.number}
-            </p>
-          );
-        }
-        return filtered;
-      }, [])}
-      {/* <h2>Numbers</h2>
-      {persons.map((person) => (
 
-        <div key={person.name}>{person.name} {person.number}</div>
-      
-      ))} */}
+      <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
+
+      <h3>Add a new</h3>
+
+      <PersonForm
+        addPerson={addPerson}
+        newName={newName}
+        handleNameInputChange={handleNameInputChange}
+        newNumber={newNumber}
+        handleNumberInputChange={handleNumberInputChange}
+      />
+
+      <h3>Numbers</h3>
+
+      <Persons persons={persons} newFilter={newFilter} />
     </div>
   );
 };
