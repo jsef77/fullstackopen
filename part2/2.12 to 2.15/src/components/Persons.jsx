@@ -7,7 +7,7 @@ function Persons({ persons, newFilter, deletePerson }) {
         if (person.name.toLowerCase().includes(newFilter.toLowerCase())) {
           filtered.push(
             <p key={person.name}>
-              {person.name} {person.number} <button type="button" onClick={() => deletePerson(person.id)}>delete</button>
+              {person.name} {person.number} <button type="button" onClick={() => deletePerson(person)}>delete</button>
             </p>
           );
         }

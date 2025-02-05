@@ -41,19 +41,30 @@ const App = () => {
       id: newId
     };
 
-    if (persons.some((person) => person.name === newName)) {
+    if (persons.some((person) => person.name === newName && person.number === newNumber)) {
       alert(`${personObject.name} is already added to the phonebook`);
-    } else {
+      
+    }
+    else if (persons.some((person) => person.name === newName)) {
+      if (window.confirm(`${personObject.name} is already added to the phonebook, replace the old number with a new one?`)) {
+        const id = persons.filter(p => p.name === newName)[0].id
+        personsService
+          .updatePerson(id, personObject)
+          .then(res => setPersons(persons.map(person => person.id === id ? res : person)))
+      }
+    }
+     else {
       personsService
         .create(personObject)
         .then(res => setPersons(persons.concat(res)))
     }
   }
 
-  function deletePerson(id) {
+  function deletePerson(person) {
+    if (window.confirm(`Delete ${person.name}?`))
     personsService
-      .deletePerson(id)
-      .then(res => setPersons(persons.filter(p => p.id !== res.id)));
+      .deletePerson(person.id)
+      .then(res => setPersons(persons.filter(p => p.id !== res.id)))
   }
 
   return (
