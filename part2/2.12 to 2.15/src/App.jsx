@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import Filter from "./components/Filter";
-import axios from 'axios'
+import axios from 'axios';
 
 
 
@@ -11,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newFilter, setNewFilter] = useState("");
+  
 
   useEffect(()=>{
     axios
@@ -33,15 +34,22 @@ const App = () => {
   function addPerson(event) {
     event.preventDefault();
 
+    const newId = persons.length + 1;
+
     const personObject = {
       name: newName,
       number: newNumber,
+      id: newId
     };
 
     if (persons.some((person) => person.name === newName)) {
-      alert(`${personObject.name} is already added to phonebook`);
+      alert(`${personObject.name} is already added to the phonebook`);
     } else {
-      setPersons(persons.concat(personObject));
+      const url = 'http://localhost:3001/persons'
+
+      axios
+        .post(url, personObject)
+        .then(res => setPersons(persons.concat(res.data)))
     }
   }
 
@@ -51,7 +59,7 @@ const App = () => {
 
       <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
 
-      <h3>Add a new</h3>
+      <h3>Add a new person</h3>
 
       <PersonForm
         addPerson={addPerson}
