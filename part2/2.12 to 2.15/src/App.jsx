@@ -3,6 +3,7 @@ import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import Filter from "./components/Filter";
 import personsService from "./services/persons"
+import persons from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -32,7 +33,7 @@ const App = () => {
   function addPerson(event) {
     event.preventDefault();
 
-    const newId = persons.length + 1;
+    const newId = `${persons.length > 0 ? Math.max(...persons.map(p => Number(p.id))) + 1: 0}`; // 🤔 assuming p.id is typeof number. Also, creates gaps. But shouldn't break?
 
     const personObject = {
       name: newName,
@@ -47,6 +48,12 @@ const App = () => {
         .create(personObject)
         .then(res => setPersons(persons.concat(res)))
     }
+  }
+
+  function deletePerson(id) {
+    personsService
+      .deletePerson(id)
+      .then(res => setPersons(persons.filter(p => p.id !== res.id)));
   }
 
   return (
@@ -67,7 +74,7 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Persons persons={persons} newFilter={newFilter} />
+      <Persons persons={persons} newFilter={newFilter} deletePerson={deletePerson} />
     </div>
   );
 };
