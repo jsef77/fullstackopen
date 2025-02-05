@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import Filter from "./components/Filter";
-import axios from 'axios';
-
-
+import personsService from "./services/persons"
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -14,9 +12,9 @@ const App = () => {
   
 
   useEffect(()=>{
-    axios
-      .get('http://localhost:3001/persons')
-      .then((res) => setPersons(res.data))
+    personsService
+      .getAll()
+      .then(allPersons => setPersons(allPersons))
   },[])
 
   function handleNameInputChange(event) {
@@ -45,11 +43,9 @@ const App = () => {
     if (persons.some((person) => person.name === newName)) {
       alert(`${personObject.name} is already added to the phonebook`);
     } else {
-      const url = 'http://localhost:3001/persons'
-
-      axios
-        .post(url, personObject)
-        .then(res => setPersons(persons.concat(res.data)))
+      personsService
+        .create(personObject)
+        .then(res => setPersons(persons.concat(res)))
     }
   }
 
