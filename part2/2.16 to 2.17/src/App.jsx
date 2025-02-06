@@ -11,8 +11,9 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newFilter, setNewFilter] = useState("");
-  const [message, setMessage] = useState(null);
   
+  const [message, setMessage] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(()=>{
     personsService
@@ -53,6 +54,17 @@ const App = () => {
         personsService
           .updatePerson(id, personObject)
           .then(res => setPersons(persons.map(person => person.id === id ? res : person)))
+          .catch(err => {
+            setError(`Information for ${newName} has already been deleted from the server`)
+            
+            personsService
+              .getAll()
+              .then(allPersons => setPersons(allPersons))
+
+            setTimeout(() => {
+              setError(null)
+            }, 4000)            
+          })
       }
     }
      else {
@@ -78,7 +90,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
-      <Notification message={message} />
+      <Notification message={message} error={error} />
 
       <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
 
