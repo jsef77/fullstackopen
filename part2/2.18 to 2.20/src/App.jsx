@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Filter from "./components/Filter";
 import countriesService from "./services/countries"
 import Countries from "./components/Countries";
-import CountryDetail from "./components/CountryDetail";
 
 const App = () => {
   const [newFilter, setNewFilter] = useState("");
@@ -23,7 +22,7 @@ const App = () => {
     <div>
       <h1>Countries</h1>
       <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
-      <Countries countries={countries} filter={newFilter}/> {/* This constantly rerenders when the search returns one country */}
+      <Countries countries={countries} filter={newFilter}/>
     </div>
   );
 };
