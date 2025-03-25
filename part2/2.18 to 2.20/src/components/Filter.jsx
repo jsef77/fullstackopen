@@ -3,7 +3,7 @@ import React from "react";
 function Filter({ newFilter, handleFilterChange }) {
   return (
     <div>
-      filter shown with{" "}
+      find countries {" "}
       <input value={newFilter} onChange={handleFilterChange}></input>
     </div>
   );
