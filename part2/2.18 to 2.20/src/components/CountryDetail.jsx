@@ -1,4 +1,5 @@
 import {React} from 'react'
+import Weather from './Weather'
 
 export default function CountryDetail({country}) {
 
@@ -6,7 +7,7 @@ export default function CountryDetail({country}) {
 
        if (country == null){
         return <></>
-       } else return (
+       } else return (<>
             <div>
             <h2>{country.name.common}</h2>
             <p>Capital: {country.capital}</p>
@@ -21,5 +22,7 @@ export default function CountryDetail({country}) {
             </ul>
               <img src={`${country.flags.png}`} />
             </div>
+            <Weather city={country.capital} />
+            </>
           )
 }

@@ -3,6 +3,7 @@ import Filter from "./components/Filter";
 import countriesService from "./services/countries"
 import Countries from "./components/Countries";
 
+
 const App = () => {
   const [newFilter, setNewFilter] = useState("");
   const [countries, setCountries] = useState([]);
